@@ -31,7 +31,11 @@ public class InsertionSort {
         for(int i = 0; i < size; i++){
             System.out.print(str[i]+",");
         }
-        String[] sortedString = insert.insertionSort(str);
+
+        // creating object for generics class to get insertion method
+        InsertionSortImplementation<String> genericsInsert = new InsertionSortImplementation(str);
+
+        String[] sortedString = genericsInsert.insertionSort();
         System.out.println();
         System.out.println("\nSorted String is as follows : ");
         for(int i = 0; i < size; i++){
@@ -40,31 +44,46 @@ public class InsertionSort {
 
     }
 
+
+}
+
+/**
+ * Purpose : To create generics class to perform  Insertion Sort method
+ * @param <T>
+ */
+class InsertionSortImplementation<T extends Comparable<T>>{
+
+    //array which needs to be sorted
+    T [] tArray;
+
+    public InsertionSortImplementation(T[] tArray) {
+        this.tArray = tArray;
+    }
+
     /**
      * Purpose : To perform Insertion Sort :
      *          --> The array is virtually split into a sorted and an unsorted part.
      *          --> Values from the unsorted part are picked and placed at the correct position in the sorted part.
      *
-     * @param str array which needs to be sorted
      * @return sorted string
      */
-    public String[] insertionSort(String[] str){
-        int size = str.length;
-         for ( int i = 1; i < size; i++){
-             String temp = str[i];
-             int j = i - 1;
-             /**
-              * Move elements of arr[0..i-1], that are greater than temp, to one position ahead
-              * of their current position
-              */
-             while (j >= 0 && str[j].compareTo(temp)>0){
+    public T[] insertionSort(){
+        int size = tArray.length;
+        for ( int i = 1; i < size; i++){
+            T temp = tArray[i];
+            int j = i - 1;
+            /**
+             * Move elements of arr[0..i-1], that are greater than temp, to one position ahead
+             * of their current position
+             */
+            while (j >= 0 && tArray[j].compareTo(temp)>0){
 
-                 str[j+1] = str[j];
-                 j--;
+                tArray[j+1] = tArray[j];
+                j--;
 
-             }
-             str[j+1] = temp;
-         }
-         return str;
+            }
+            tArray[j+1] = temp;
+        }
+        return tArray;
     }
 }

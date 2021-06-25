@@ -1,4 +1,5 @@
-/**
+/******************************************************************************************************
+ * 
  * Purpose : To get a magic number takes a command-line argument N, asks you to think of a number
  *           between 0 and N-1, where N = 2^n, and always guesses the answer with n questions.
  *           b. I/P -> the Number N and then recursively ask true/false if the number is between
@@ -8,7 +9,8 @@
  *
  * @author Krunal Lad
  * @Since 24-06-2021
- */
+ * 
+ ******************************************************************************************************/
 
 import java.util.Scanner;
 

@@ -12,17 +12,20 @@
 
 import java.util.Scanner;
 
-public class BubbleSort {
+public class  BubbleSort{
 
+    /**
+     * Purpose : Main Method of Class
+     * @param args
+     */
     public static void main(String[] args) {
 
-        BubbleSort bubble = new BubbleSort();
         Scanner scanner = new Scanner(System.in);
 
         System.out.println("Enter the size the array : ");
         int size = scanner.nextInt();
 
-        int[] arrayOfInt = new int[size];
+        Integer[] arrayOfInt = new Integer[size];
 
         System.out.println("Enter " + size + " integer elements in array : ");
         for (int i = 0; i < size; i++) {
@@ -31,15 +34,18 @@ public class BubbleSort {
 
         }
 
+
         System.out.println("Array before bubble sort : ");
         for (int i = 0; i < size; i++) {
 
             System.out.print(arrayOfInt[i] + ",");
 
         }
-        System.out.println();
 
-        int[] sortedArrayInt = bubble.bubbleSort(arrayOfInt);
+        BubbleSortImplementation<Integer> generics = new BubbleSortImplementation<Integer>(arrayOfInt);
+
+        System.out.println();
+        Integer[] sortedArrayInt = generics.bubbleSort();
         System.out.println("Array after bubble sort : ");
         for (int i = 0; i < size; i++) {
 
@@ -47,6 +53,16 @@ public class BubbleSort {
 
         }
     }
+}
+
+/**
+ * Purpose : Generics class  to implement bubble sort in generics method
+ * @param <T>
+ */
+class BubbleSortImplementation<T extends Comparable<T>>{
+
+    //array that needs to be sorted
+    T [] arrayElements;
 
     /**
      *  Purpose : To perform bubble sort
@@ -54,21 +70,24 @@ public class BubbleSort {
      *            Here, current element is compared with the next element.
      *            If current element is greater than the next element, it is swapped.
      *
-     * @param arrayOfInt array that needs to be sorted
      * @return sorted array
      */
-    private int[] bubbleSort(int[] arrayOfInt) {
-        int sizeOfArray = arrayOfInt.length;
+
+    public BubbleSortImplementation(T[] arrayElements) {
+        this.arrayElements = arrayElements;
+    }
+    public T[] bubbleSort() {
+        int sizeOfArray = arrayElements.length;
 
         for (int i = 0; i < sizeOfArray; i++) {
 
             for (int j = 1; j < sizeOfArray - i; j++) {
 
-                if (arrayOfInt[j - 1] > arrayOfInt[j]) {
+                if (arrayElements[j - 1].compareTo(arrayElements[j])> 0) {
                     // swap elements
-                    int temp = arrayOfInt[j - 1];
-                    arrayOfInt[j - 1] = arrayOfInt[j];
-                    arrayOfInt[j] = temp;
+                    T temp = arrayElements[j - 1];
+                    arrayElements[j - 1] = arrayElements[j];
+                    arrayElements[j] = temp;
 
                 }
 
@@ -76,6 +95,6 @@ public class BubbleSort {
 
         }
 
-        return arrayOfInt;
+        return arrayElements;
     }
 }

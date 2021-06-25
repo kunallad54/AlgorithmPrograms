@@ -40,19 +40,38 @@ public class BinarySearch {
         System.out.println("Before Sorting : \n" + list);
         // sorted the arraylist
         Collections.sort(list);
-        System.out.println("After Sorting : \n" + list);
+        System.out.println("\nAfter Sorting : \n" + list);
 
-        System.out.println("Enter the word you want to search in string : ");
+        System.out.println("\nEnter the word you want to search in string : ");
         Scanner sc = new Scanner(System.in);
         String word = sc.next();
 
-        int indexNumber = bin.binarySearchInLast(list, word);
+        // Creating object for generics class to implement binary search
+        BinarySearchImplementation<String> genericsBinary = new BinarySearchImplementation<>(list,word);
+
+        Integer indexNumber = genericsBinary.binarySearchMethod();
 
         if (indexNumber == -1) {
             System.out.println("Word not found");
         } else {
             System.out.println("Word is present in the list  at index number : " + indexNumber);
         }
+    }
+}
+
+/**
+ * Purpose : To make generic class for binary search method
+ * @param <T>
+ */
+class BinarySearchImplementation<T extends Comparable<T>>{
+    //arraylist in which it will perform Binary Search
+    ArrayList<T> tArrayList;
+
+    // word that need to be searched in the list
+    T word;
+    public BinarySearchImplementation(ArrayList<T> tArrayList,T word) {
+        this.tArrayList = tArrayList;
+        this.word = word;
     }
 
     /**
@@ -63,12 +82,10 @@ public class BinarySearch {
      *           4.if less than middle skip right subArray and do same for leftArray
      *           5.if not found returns -1
      *
-     * @param list arraylist in which it will perform Binary Search
-     * @param word --> word that need to be searched in the list
      * @return index number if word found or -1 if not found
      */
-    public int binarySearchInLast(ArrayList<String> list, String word) {
-        int left = 0, right = list.size() - 1;
+    public int binarySearchMethod() {
+        int left = 0, right = tArrayList.size() - 1;
 
         while (left <= right) {
 
@@ -76,14 +93,14 @@ public class BinarySearch {
             int mid = left + (right - left) / 2;
 
             // check if word is present at middle
-            if (list.get(mid).equalsIgnoreCase(word))
+            if (tArrayList.get(mid).equals(word))
                 return mid;
 
             /**
              * if word to is greater than mid,ignore left half
              * and same if word is less than mid ignore right half
              */
-            if (list.get(mid).compareTo(word) < 0) {
+            if (tArrayList.get(mid).compareTo(word) < 0) {
                 left = mid + 1;
             } else {
                 right = mid - 1;

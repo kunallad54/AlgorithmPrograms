@@ -13,6 +13,7 @@
  *
  ***************************************************************************************************************/
 
+import java.lang.reflect.Array;
 import java.util.Scanner;
 
 public class MergeSort {
@@ -24,18 +25,30 @@ public class MergeSort {
         System.out.println("Enter the size of array : ");
         int size = scanner.nextInt();
 
-        int[] arrayOfInt = new int[size];
+        Integer[] arrayOfInt = new Integer[size];
         System.out.println("Enter " + size + " integer elements in array : ");
         for (int i = 0; i < size; i++) {
             arrayOfInt[i] = scanner.nextInt();
         }
         int lowerBound = 0;
         int upperBound = size - 1;
-        merge.sort(arrayOfInt, lowerBound, upperBound);
+        MergeSortImplementation<Integer> genericsMerge = new MergeSortImplementation(arrayOfInt);
+        genericsMerge.sort(arrayOfInt, lowerBound, upperBound);
         System.out.println("Sorted array is : ");
         for (int i = 0; i < size; i++) {
             System.out.print(arrayOfInt[i] + ",");
         }
+    }
+
+
+}
+
+class MergeSortImplementation<T extends Comparable<T>>{
+    T[] tArray;
+
+    public MergeSortImplementation(T[] tArray) {
+        this.tArray = tArray;
+
     }
 
     /**Purpose : To perform merge sort
@@ -43,24 +56,20 @@ public class MergeSort {
      *          calls itself for the two halves, and then merges the two sorted halves. The merge() function is
      *          used for merging two halves. The merge(arr, l, m, r) is a key process that assumes that arr[l..m]
      *          and arr[m+1..r] are sorted and merges the two sorted sub-arrays into one
-     *
-     *
-     * @param arrayOfInt array that needs to be sorted
-     * @param lowerBound start Index
-     * @param upperBound end Index
      */
-    private void sort(int[] arrayOfInt, int lowerBound, int upperBound) {
+
+    public void sort(T[] tArray,int lowerBound,int upperBound) {
         int mid;
         if (lowerBound < upperBound) {
             // find the middle element
             mid = (lowerBound + upperBound) / 2;
 
             // Sorts first and second Halves
-            sort(arrayOfInt, lowerBound, mid);
-            sort(arrayOfInt, mid + 1, upperBound);
+            sort(tArray, lowerBound, mid);
+            sort(tArray, mid + 1, upperBound);
 
             //Merges the sorted halves
-            merge.mergeSort(arrayOfInt, lowerBound, mid, upperBound);
+            mergeSort(tArray, lowerBound, mid, upperBound);
         }
 
     }
@@ -70,28 +79,28 @@ public class MergeSort {
      *           First subArray[lowerBound...Mid]
      *           Second subArray[Mid+1...UpperBound]
      *
-     * @param arrayOfInt
+     * @param tArray
      * @param lowerBound
      * @param mid
      * @param upperBound
      */
-    private void mergeSort(int[] arrayOfInt, int lowerBound, int mid, int upperBound) {
+    private void mergeSort(T[] tArray, int lowerBound, int mid, int upperBound) {
 
         // finds sizes of two subArrays that needs to be merged
         int l = mid - lowerBound + 1;
         int r = upperBound - mid;
 
         // Creates temporary arrays
-        int[] leftArray = new int[l];
-        int[] rightArray = new int[r];
+        T[] leftArray = (T[]) new Comparable[l];
+        T[] rightArray = (T[]) new Comparable[r];
 
         //Copying data to temp Arrays
         for (int i = 0; i < l; i++) {
-            leftArray[i] = arrayOfInt[lowerBound + i];
+            leftArray[i] = tArray[lowerBound + i];
         }
 
         for (int j = 0; j < r; j++) {
-            rightArray[j] = arrayOfInt[mid + 1 + j];
+            rightArray[j] = tArray[mid + 1 + j];
         }
 
         // Merge the temp Arrays
@@ -105,14 +114,14 @@ public class MergeSort {
 
         while (i < l && j < r) {
 
-            if (leftArray[i] < rightArray[j]) {
+            if (leftArray[i].compareTo(rightArray[j]) < 0) {
 
-                arrayOfInt[k] = leftArray[i];
+                tArray[k] = leftArray[i];
                 i++;
 
             } else {
 
-                arrayOfInt[k] = rightArray[j];
+                tArray[k] = rightArray[j];
                 j++;
 
             }
@@ -123,7 +132,7 @@ public class MergeSort {
         // Copy remaining elements of leftArray if left any
         while (i < l) {
 
-            arrayOfInt[k] = leftArray[i];
+            tArray[k] = leftArray[i];
             i++;
             k++;
 
@@ -132,7 +141,7 @@ public class MergeSort {
         // Copy remaining elements of rightArray if left any
         while (j < r) {
 
-            arrayOfInt[k] = rightArray[j];
+            tArray[k] = rightArray[j];
             j++;
             k++;
 
